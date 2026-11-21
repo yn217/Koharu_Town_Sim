@@ -2,6 +2,25 @@
 
 こはると一緒に「ひなた町」を育てる、ブラウザーで遊べる街づくりシミュレーションです。
 
+![タイトル画面](docs/screenshots/title.jpg)
+
+![ひなた町とこはるのアドバイス](docs/screenshots/town.png)
+
+| 建物を拡大して確認 | 町のレポート |
+| --- | --- |
+| ![建物の情報](docs/screenshots/closeup.png) | ![レポート画面](docs/screenshots/report.png) |
+| **イベントCG** | **スマホ表示** |
+| ![夏祭りのイベントCG](docs/screenshots/cg.jpg) | <img src="docs/screenshots/mobile.png" alt="スマホ表示" width="260"> |
+
+## 特徴
+
+- 道路でつながった建物だけが動く、アイソメトリック表示の街づくり（建物12種）
+- おうちは快適さ・お店・学校の条件がそろうと二階建て→マンションに成長
+- こはるが目標を案内し、「アドバイスを聞く」で町の課題を教えてくれる
+- 全12個の目標と、節目で見られるイベントCG（思い出アルバムに保存）
+- 季節・天気・観光客・お祭り、レポートのグラフ、自動セーブ、スマホ対応
+- こはるの立ち絵（表情6種）とCGは ComfyUI＋LoRA で生成
+
 ## 起動
 
 このフォルダーで次を実行し、`http://127.0.0.1:8192/` を開きます（`index.html` を直接開いても遊べます）。
@@ -39,6 +58,7 @@ python -m http.server 8192 --bind 127.0.0.1
 - `assets/koharu/` … こはるの立ち絵（表情6種、背景透過）
 - `assets/cg/` … タイトル・イベント用CG
 - `tools/gen_assets.py` … ComfyUI で立ち絵・CGを生成するスクリプト
+- `docs/screenshots/` … README 用のスクリーンショット
 
 ## こはるの画像（ComfyUI）
 
