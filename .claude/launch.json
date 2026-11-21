@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "town",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8192", "--bind", "127.0.0.1"],
+      "port": 8192,
+      "autoPort": false
+    }
+  ]
+}

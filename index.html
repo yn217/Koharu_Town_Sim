@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6f1e6" />
+  <title>こはるの街づくり</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="world" aria-label="町のマップ"></canvas>
+
+    <header class="hud">
+      <div class="hud-brand">
+        <span class="logo">✿</span>
+        <div><b id="townName">ひなた町</b><small id="dateLabel">1年目 春 1日</small></div>
+      </div>
+      <div class="hud-speed" role="group" aria-label="時間の速さ">
+        <button data-speed="0" title="一時停止（P）">❚❚</button>
+        <button data-speed="1" title="ふつう（1）">▶</button>
+        <button data-speed="2" title="はやい（2）">▶▶</button>
+        <button data-speed="4" title="とてもはやい（3）">▶▶▶</button>
+        <span class="day-progress"><i id="dayBar"></i></span>
+      </div>
+      <div class="hud-stats">
+        <div class="chip money" title="町の予算（1日の収支）"><span class="ic">¥</span><b id="money">5,000</b><em id="moneyDelta">±0/日</em></div>
+        <div class="chip" title="住民"><span class="ic">👥</span><b id="pop">0</b><em>人</em></div>
+        <div class="chip" title="まんぞく度"><span class="ic">💗</span><b id="happy">60</b><em>%</em></div>
+        <div class="chip" title="働いている人 / 仕事の数"><span class="ic">💼</span><b id="jobs">0/0</b></div>
+        <div class="rci" title="町がほしがっているもの（住宅・お店・仕事）">
+          <div><span class="bar"><i id="rciR"></i></span><small>住</small></div>
+          <div><span class="bar"><i id="rciC"></i></span><small>商</small></div>
+          <div><span class="bar"><i id="rciW"></i></span><small>工</small></div>
+        </div>
+      </div>
+      <div class="hud-tools">
+        <button id="btnOverlay" title="快適さマップ（M）">🗺</button>
+        <button id="btnSound" title="サウンド">🔊</button>
+        <button id="btnMenu" title="メニュー">☰</button>
+      </div>
+    </header>
+
+    <nav class="palette" id="palette" aria-label="建設メニュー"></nav>
+
+    <aside class="side">
+      <section class="card goal-card" id="goalCard">
+        <div class="card-head"><span class="eyebrow">GOAL <b id="goalNum">1</b>/<b id="goalMax">12</b></span><span class="reward" id="goalReward">¥300</span></div>
+        <h2 id="goalTitle">道路を5マスのばそう</h2>
+        <p id="goalDesc"></p>
+        <div class="progress"><i id="goalBar"></i></div>
+        <small id="goalProg">0 / 5</small>
+      </section>
+      <section class="card info-card" id="infoCard" hidden>
+        <div class="card-head"><span class="eyebrow" id="infoKind">INFO</span><button class="x" id="infoClose" aria-label="閉じる">×</button></div>
+        <h2 id="infoTitle"></h2>
+        <div id="infoBody"></div>
+      </section>
+    </aside>
+
+    <section class="talk" id="talk">
+      <div class="face-wrap"><img id="talkFace" src="assets/koharu/normal.png" alt="こはる"></div>
+      <div class="talk-box" id="talkBox">
+        <div class="talk-name"><b>こはる</b><small>まちづくりアドバイザー</small><button class="x" id="talkHide" title="小さくする">－</button></div>
+        <p id="talkText">…</p>
+        <div class="talk-actions"><button id="btnAdvice">💡 アドバイスを聞く</button><span id="talkNext" hidden>クリックでつぎへ ▼</span></div>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <div class="overlay" id="cgOverlay" hidden>
+      <figure class="cg">
+        <img id="cgImg" alt="">
+        <figcaption><span class="eyebrow">EVENT</span><b id="cgTitle"></b><p id="cgText"></p><small>クリックで町にもどる</small></figcaption>
+      </figure>
+    </div>
+
+    <div class="overlay" id="menuOverlay" hidden>
+      <section class="menu">
+        <button class="x" id="menuClose" aria-label="閉じる">×</button>
+        <span class="eyebrow">TOWN REPORT</span>
+        <h2 id="reportTitle">ひなた町のレポート</h2>
+        <div class="report-grid" id="reportGrid"></div>
+        <canvas id="reportChart" width="560" height="150"></canvas>
+        <div class="menu-row">
+          <button id="btnSave">💾 セーブ</button>
+          <button id="btnGallery">🖼 思い出アルバム</button>
+          <button id="btnTitle">🏠 タイトルへ</button>
+        </div>
+        <div class="gallery" id="gallery" hidden></div>
+      </section>
+    </div>
+
+    <div class="title-screen" id="title">
+      <img class="title-bg" src="assets/cg/cg_title.jpg" alt="">
+      <div class="title-panel">
+        <span class="eyebrow">HINATA TOWN BUILDER</span>
+        <h1>こはるの<br>街づくり</h1>
+        <p>こはると一緒に、小さな「ひなた町」を<br>みんなの好きが集まる町に育てよう。</p>
+        <div class="title-buttons">
+          <button id="btnContinue" hidden>つづきから</button>
+          <button id="btnNew">はじめから</button>
+        </div>
+        <small class="keys">ドラッグ／右ドラッグ：移動 ・ ホイール：ズーム ・ Esc：選択解除</small>
+      </div>
+    </div>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/sim.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# ComfyUI の生出力（gen_assets.py で再生成できる）
+tools/_raw/
+__pycache__/
+
+# 以前の簡易版（未使用）
+_v1_backup/
+/game.js
+assets/koharu.png
+
+# ローカル設定
+.claude/settings.local.json
